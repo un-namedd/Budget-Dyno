@@ -21,7 +21,6 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
   print('We have logged in as {0.user}'.format(bot))
 
-
 @bot.command()
 async def menu2(ctx, member: discord.Member = None):
     if member == None:
@@ -60,7 +59,7 @@ async def menu2(ctx, member: discord.Member = None):
         "<:adc:1193209950462279900>",
         "<:supp:1193210180658274396>"
     }
-    for reaction in reactions_roles.keys():
+    for reaction in reactions_roles:
         await msg.add_reaction(reaction)
 
 @bot.event
@@ -79,13 +78,6 @@ async def on_reaction_add(reaction, user):
     if role_name:
         role = discord.utils.get(guild.roles, name=role_name)
         await user.add_roles(role)
-
-@bot.event
-async def on_reaction_add(reaction, user):
-    guild = reaction.message.guild
-    if reaction.emoji == '🍎':  # Check if the reaction is the one you want
-        role = discord.utils.get(guild.roles, name="Top")  # Get the role you want to assign
-        await user.add_roles(role)  # Assign the role
 
 class MySelect(View):
 
