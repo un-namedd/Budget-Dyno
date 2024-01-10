@@ -7,7 +7,7 @@ from keep_alive import keep_alive
 
 keep_alive()
 
-my_secret = Bot(my_secret=os.environ('token_bot'))
+my_secret = os.environ('token_bot')
 
 intents = discord.Intents.default()
 intents.messages = True
