@@ -16,10 +16,9 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-
 @bot.event
 async def on_ready():
-  print('We have logged in as {0.user}'.format(bot))
+    print('Bot is ready.')
 
 @bot.command()
 async def menu2(ctx, member: discord.Member = None):
@@ -36,30 +35,30 @@ async def menu2(ctx, member: discord.Member = None):
         name="Budget Dyno",
         icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
     embed.add_field(name="<:topl:1193209344968368189> Top",
-                    value="Top role",
+                    value="Top lane",
                     inline=False)
     embed.add_field(name="<:jungle:1193210201759817829> Jungle",
-                    value="Jungle role",
+                    value="Jungle",
                     inline=False)
     embed.add_field(name="<:mid:1193209803145752639> Mid",
-                    value="Mid role",
+                    value="Mid lane",
                     inline=False)
     embed.add_field(name="<:adc:1193209950462279900> Adc",
-                    value="Adc role",
+                    value="Bot lane",
                     inline=False)
     embed.add_field(name="<:supp:1193210180658274396> Support",
-                    value="Support role",
+                    value="Support",
                     inline=False)
 
     msg = await ctx.send(embed=embed)
     reactions_roles = {
-        "<:topl:1193209344968368189>",
-        "<:jungle:1193210201759817829>",
-        "<:mid:1193209803145752639>",
-        "<:adc:1193209950462279900>",
-        "<:supp:1193210180658274396>"
+        "<:topl:1193209344968368189>": "Top",
+        "<:jungle:1193210201759817829>": "Jungle",
+        "<:mid:1193209803145752639>": "Mid",
+        "<:adc:1193209950462279900>": "Adc",
+        "<:supp:1193210180658274396>": "Support"
     }
-    for reaction in reactions_roles:
+    for reaction in reactions_roles.keys():
         await msg.add_reaction(reaction)
 
 @bot.event
@@ -68,16 +67,31 @@ async def on_reaction_add(reaction, user):
         return
     guild = reaction.message.guild
     reactions_roles = {
-        "<:topl:1193209344968368189>": "Top role",
-        "<:jungle:1193210201759817829>": "Jungle role",
-        "<:mid:1193209803145752639>": "Mid role",
-        "<:adc:1193209950462279900>": "Adc role",
-        "<:supp:1193210180658274396>": "Support role"
+        "<:topl:1193209344968368189>": "Top",
+        "<:jungle:1193210201759817829>": "Jungle",
+        "<:mid:1193209803145752639>": "Mid",
+        "<:adc:1193209950462279900>": "Adc",
+        "<:supp:1193210180658274396>": "Support"
     }
     role_name = reactions_roles.get(str(reaction.emoji))
     if role_name:
         role = discord.utils.get(guild.roles, name=role_name)
         await user.add_roles(role)
+
+@bot.event
+async def on_reaction_remove(reaction, user):
+    guild = reaction.message.guild
+    reactions_roles = {
+        "<:topl:1193209344968368189>": "Top",
+        "<:jungle:1193210201759817829>": "Jungle",
+        "<:mid:1193209803145752639>": "Mid",
+        "<:adc:1193209950462279900>": "Adc",
+        "<:supp:1193210180658274396>": "Support"
+    }
+    role_name = reactions_roles.get(str(reaction.emoji))
+    if role_name:
+        role = discord.utils.get(guild.roles, name=role_name)
+        await user.remove_roles(role)
 
 class MySelect(View):
 
@@ -176,13 +190,13 @@ class MySelect(View):
     if new_role:
       await user.add_roles(new_role)
       if removed_role:
-          embed = discord.Embed(title="Role Update", description=f"{removed_role.mention} role removed!\n{new_role.mention} role added!", color=discord.Color.blue())
+          embed = discord.Embed(title="Rank Updated!", description=f"Removed {removed_role.mention}!\n\nAdded{new_role.mention}!", color=discord.Color.blue())
           await interaction.response.send_message(embed=embed, ephemeral=True)
       else:
-          embed = discord.Embed(title="Role Update", description=f"{new_role.mention} role added!", color=discord.Color.blue())
+          embed = discord.Embed(title="Rank Added!", description=f"{new_role.mention} role added!", color=discord.Color.blue())
           await interaction.response.send_message(embed=embed, ephemeral=True)
     elif select.values[0] == "12":
-        await interaction.response.send_message("All rank roles removed!", ephemeral=True)
+        await interaction.response.send_message("All ranked roles removed!", ephemeral=True)
 
 @bot.command()
 async def menu(ctx):
