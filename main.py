@@ -23,7 +23,7 @@ async def on_ready():
 
 
 @bot.command()
-async def embed7236(ctx, member: discord.Member = None):
+async def menu2(ctx, member: discord.Member = None):
   if member == None:
     member = ctx.author
 
