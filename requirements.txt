@@ -1,3 +1,4 @@
+aiogram=2.31.1
 flask
 Flask
 Thread
