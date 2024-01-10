@@ -1,6 +1,9 @@
 import time
 import requests
 import json
+from keep_alive import keep_alive
+
+keep_alive()
 
 # Twitch API credentials
 client_id = '5vbnkp6tjtk9o2jy4kr9li372ja4dm'
