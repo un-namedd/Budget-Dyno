@@ -5,7 +5,7 @@ from discord.ui import View
 from discord.ext import commands
 from keep_alive import keep_alive
 
-
+keep_alive()
 
 my_secret = os.environ['token_bot']
 
@@ -168,7 +168,5 @@ async def menu(ctx):
     icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
   view = MySelect()
   await ctx.send(embed=emb, view=view)
-  
-keep_alive()
 
 bot.run(my_secret)
