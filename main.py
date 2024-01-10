@@ -7,7 +7,7 @@ from keep_alive import keep_alive
 
 keep_alive()
 
-my_secret = os.environ['token_bot']
+my_secret = 'MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE'
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -169,4 +169,4 @@ async def menu(ctx):
   view = MySelect()
   await ctx.send(embed=emb, view=view)
 
-bot.run(my_secret)
+bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
