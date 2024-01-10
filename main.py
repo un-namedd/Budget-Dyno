@@ -24,36 +24,68 @@ async def on_ready():
 
 @bot.command()
 async def menu2(ctx, member: discord.Member = None):
-  if member == None:
-    member = ctx.author
+    if member == None:
+        member = ctx.author
 
-  name = member.display_name
-  pfp = member.display_avatar
+    name = member.display_name
+    pfp = member.display_avatar
 
-  embed = discord.Embed(title="What role(s) do you usually play?",
-                        description="",
-                        colour=0xFF0000)
-  embed.set_author(
-      name="Budget Dyno",
-      icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
-  embed.add_field(name="<:topl:1193209344968368189> Top",
-                  value="Top role",
-                  inline=False)
-  embed.add_field(name="<:jungle:1193210201759817829> Jungle",
-                  value="Jungle role",
-                  inline=False)
-  embed.add_field(name="<:mid:1193209803145752639> Mid",
-                  value="Mid role",
-                  inline=False)
-  embed.add_field(name="<:adc:1193209950462279900> Adc",
-                  value="Adc role",
-                  inline=False)
-  embed.add_field(name="<:supp:1193210180658274396> Support",
-                  value="Support role",
-                  inline=False)
+    embed = discord.Embed(title="What role(s) do you usually play?",
+                          description="",
+                          colour=0xFF0000)
+    embed.set_author(
+        name="Budget Dyno",
+        icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
+    embed.add_field(name="<:topl:1193209344968368189> Top",
+                    value="Top role",
+                    inline=False)
+    embed.add_field(name="<:jungle:1193210201759817829> Jungle",
+                    value="Jungle role",
+                    inline=False)
+    embed.add_field(name="<:mid:1193209803145752639> Mid",
+                    value="Mid role",
+                    inline=False)
+    embed.add_field(name="<:adc:1193209950462279900> Adc",
+                    value="Adc role",
+                    inline=False)
+    embed.add_field(name="<:supp:1193210180658274396> Support",
+                    value="Support role",
+                    inline=False)
 
-  await ctx.send(embed=embed)
+    msg = await ctx.send(embed=embed)
+    reactions_roles = {
+        "<:topl:1193209344968368189>",
+        "<:jungle:1193210201759817829>",
+        "<:mid:1193209803145752639>",
+        "<:adc:1193209950462279900>",
+        "<:supp:1193210180658274396>"
+    }
+    for reaction in reactions_roles.keys():
+        await msg.add_reaction(reaction)
 
+@bot.event
+async def on_reaction_add(reaction, user):
+    if user.bot:
+        return
+    guild = reaction.message.guild
+    reactions_roles = {
+        "<:topl:1193209344968368189>": "Top role",
+        "<:jungle:1193210201759817829>": "Jungle role",
+        "<:mid:1193209803145752639>": "Mid role",
+        "<:adc:1193209950462279900>": "Adc role",
+        "<:supp:1193210180658274396>": "Support role"
+    }
+    role_name = reactions_roles.get(str(reaction.emoji))
+    if role_name:
+        role = discord.utils.get(guild.roles, name=role_name)
+        await user.add_roles(role)
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    guild = reaction.message.guild
+    if reaction.emoji == '🍎':  # Check if the reaction is the one you want
+        role = discord.utils.get(guild.roles, name="Top")  # Get the role you want to assign
+        await user.add_roles(role)  # Assign the role
 
 class MySelect(View):
 
