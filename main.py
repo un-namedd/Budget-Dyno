@@ -66,7 +66,7 @@ async def menu2(ctx, member: discord.Member = None):
     name = member.display_name
     pfp = member.display_avatar
 
-    embed = discord.Embed(title="What role(s) do you usually play?",
+    embed = discord.Embed(title="What role(s) do you usually play?      ",
                           description="",
                           colour=0xFF0000)
     embed.set_author(
@@ -109,7 +109,7 @@ async def on_reaction_add(reaction, user):
         "<:topl:1193209344968368189>": "Top",
         "<:jungle:1193210201759817829>": "Jungle",
         "<:mid:1193209803145752639>": "Mid",
-        "<:adc:1193209950462279900>": "Adc",
+        "<:bot:1193209950462279900>": "Adc",
         "<:supp:1193210180658274396>": "Support"
     }
     role_name = reactions_roles.get(str(reaction.emoji))
@@ -124,7 +124,7 @@ async def on_reaction_remove(reaction, user):
         "<:topl:1193209344968368189>": "Top",
         "<:jungle:1193210201759817829>": "Jungle",
         "<:mid:1193209803145752639>": "Mid",
-        "<:adc:1193209950462279900>": "Adc",
+        "<:bot:1193209950462279900>": "Adc",
         "<:supp:1193210180658274396>": "Support"
     }
     role_name = reactions_roles.get(str(reaction.emoji))
