@@ -89,7 +89,7 @@ async def menu2(ctx, member: discord.Member = None):
                     inline=False)
 
     msg = await ctx.send(embed=embed)
-    await ctx.send("----------------------------------------------")
+    await ctx.send("--------------------------------------------")
     reactions_roles = {
         "<:topl:1193209344968368189>": "Top",
         "<:jungle:1193210201759817829>": "Jungle",
