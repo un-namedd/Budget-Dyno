@@ -130,7 +130,10 @@ async def on_reaction_remove(reaction, user):
     role_name = reactions_roles.get(str(reaction.emoji))
     if role_name:
         role = discord.utils.get(guild.roles, name=role_name)
-        await user.remove_roles(role)
+        try:
+            await user.remove_roles(role)
+        except Exception as e:
+            print(f"Failed to remove role {role_name} from user {user.name}: {e}")
 
 class MySelect(View):
 
