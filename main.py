@@ -239,7 +239,9 @@ class MySelect(View):
 
 @bot.command()
 async def menu(ctx):
-  emb = discord.Embed(title="What's your current rank in the game?", description="", colour="0xFF0000")
+    emb = discord.Embed(title="What's your current rank in the game?",
+                          description="",
+                          colour=0xFF0000)
   emb.set_author(
     name="Budget Dyno",
     icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
@@ -249,12 +251,3 @@ async def menu(ctx):
 
 
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
-
-while True:
-    if is_online(streamer, client_id, token):
-        if not message_sent:
-            send_discord_message(f'@Everyone {streamer} is now live on Twitch!', webhook_url)
-            message_sent = True
-    else:
-        message_sent = False  # Reset the flag when the streamer is offline
-    time.sleep(60)  # Check every minute
