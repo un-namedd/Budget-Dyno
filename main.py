@@ -89,6 +89,7 @@ async def menu2(ctx, member: discord.Member = None):
                     inline=False)
 
     msg = await ctx.send(embed=embed)
+    await message.send("--------------------------------------------------------------------------------------)
     reactions_roles = {
         "<:topl:1193209344968368189>": "Top",
         "<:jungle:1193210201759817829>": "Jungle",
@@ -245,8 +246,6 @@ async def menu(ctx):
   view = MySelect()
   await ctx.send(embed=emb, view=view)
 
-bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
-
 while True:
     if is_online(streamer, client_id, token):
         if not message_sent:
@@ -255,3 +254,6 @@ while True:
     else:
         message_sent = False  # Reset the flag when the streamer is offline
     time.sleep(60)  # Check every minute
+
+bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
+
