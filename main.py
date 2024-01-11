@@ -239,7 +239,7 @@ class MySelect(View):
 
 @bot.command()
 async def menu(ctx):
-  emb = discord.Embed(title="What's your current rank in the game?", description="")
+  emb = discord.Embed(title="What's your current rank in the game?", description="", colour="0xFF0000")
   emb.set_author(
     name="Budget Dyno",
     icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
