@@ -118,8 +118,10 @@ async def on_reaction_add(reaction, user):
         await user.add_roles(role)
 
 @bot.event
-async def on_reaction_remove(reaction, user):
-    guild = reaction.message.guild
+async def on_raw_reaction_remove(payload):
+    print(f"Raw reaction removed: {payload.emoji}")
+    guild = await bot.fetch_guild(payload.guild_id)
+    user = await guild.fetch_member(payload.user_id)
     reactions_roles = {
         "<:topl:1193209344968368189>": "Top",
         "<:jungle:1193210201759817829>": "Jungle",
@@ -127,13 +129,21 @@ async def on_reaction_remove(reaction, user):
         "<:bot:1193209950462279900>": "Adc",
         "<:supp:1193210180658274396>": "Support"
     }
-    role_name = reactions_roles.get(str(reaction.emoji))
+    role_name = reactions_roles.get(str(payload.emoji))
     if role_name:
         role = discord.utils.get(guild.roles, name=role_name)
-        try:
-            await user.remove_roles(role)
-        except Exception as e:
-            print(f"Failed to remove role {role_name} from user {user.name}: {e}")
+        if role:
+            print(f"Role found: {role.name}")
+            try:
+                await user.remove_roles(role)
+            except Exception as e:
+                print(f"Failed to remove role {role_name} from user {user.name}: {e}")
+        else:
+            print(f"Role not found: {role_name}")
+    else:
+        print(f"Reaction not in reactions_roles: {payload.emoji}")
+
+
 
 class MySelect(View):
 
