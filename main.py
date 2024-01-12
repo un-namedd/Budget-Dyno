@@ -4,50 +4,13 @@ import discord.ui
 import time
 import requests
 import json
-from discord.ui import View
+from discord import ButtonStyle
+from discord.ui import View, Button
 from discord.ext import commands
-from keep_alive import keep_alive
-
-keep_alive()
-
-client_id = '5vbnkp6tjtk9o2jy4kr9li372ja4dm'
-client_secret = '4uzclx2q4bxyfdz6oszymyrh8ckkjs'
-
-# Twitch streamer to check
-streamer = 'Sweetbuttcheeks'
-
-# Discord webhook URL
-webhook_url = 'https://discord.com/api/webhooks/1194732995324694588/flaW6OEgej-Sf1gK1FwLzHoRtZYehLThOK8YOxmWI6es7h3CDv3iU907kdR8vnfRQAOa'
-
-def get_twitch_token(client_id, client_secret):
-    url = 'https://id.twitch.tv/oauth2/token'
-    payload = {
-        'client_id': client_id,
-        'client_secret': client_secret,
-        'grant_type': 'client_credentials'
-    }
-    response = requests.post(url, params=payload)
-    return response.json()['access_token']
-
-# Function to check if a streamer is online
-def is_online(streamer, client_id, token):
-    url = f'https://api.twitch.tv/helix/streams?user_login={streamer}'
-    headers = {'Client-ID': client_id, 'Authorization': f'Bearer {token}'}
-    response = requests.get(url, headers=headers)
-    return response.json()['data'] != []
-
-# Function to send a message to Discord
-def send_discord_message(content, webhook_url):
-    data = {'content': content}
-    response = requests.post(webhook_url, data=json.dumps(data), headers={"Content-Type": "application/json"})
-    return response.status_code
-
-# Get Twitch API access token
-token = get_twitch_token(client_id, client_secret)
 
 my_secret = 'MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE'
 
-intents = discord.Intents.default()
+intents = discord.Intents().all()
 intents.messages = True
 intents.reactions = True
 intents.message_content = True
@@ -58,6 +21,41 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print('Bot is ready.')
 
+class RoleButton(Button):
+    def __init__(self, role_name, emoji):
+        super().__init__(style=ButtonStyle.grey, label="", custom_id=role_name, emoji=emoji)
+        self.role_name = role_name
+
+    async def callback(self, interaction):
+        member = interaction.user
+        role = discord.utils.get(interaction.guild.roles, name=self.role_name)
+        if role in member.roles:
+            await member.remove_roles(role)
+            emb = discord.Embed(title="Role update",
+                                description=f"Removed {role.mention}",
+                                color=discord.Color.blue())
+            await interaction.response.send_message(embed=emb, ephemeral=True)
+        else:
+            await member.add_roles(role)
+            emb2 = discord.Embed(title="Role update",
+                                description=f"Added {role.mention}",
+                                color=discord.Color.blue())
+            await interaction.response.send_message(embed=emb2, ephemeral=True)
+
+class RoleView1(View):
+    def __init__(self):
+        super().__init__()
+        self.add_item(RoleButton("Top", "<:topl:1193209344968368189>"))
+        self.add_item(RoleButton("Jungle", "<:jungle:1193210201759817829>"))
+        self.add_item(RoleButton("Mid", "<:mid:1193209803145752639>"))
+
+class RoleView2(View):
+    def __init__(self):
+        super().__init__()
+        self.add_item(RoleButton("Adc", "<:bot:1193209950462279900>"))
+        self.add_item(RoleButton("Support", "<:supp:1193210180658274396>"))
+        self.add_item(RoleButton("Fill", "<:fill:1193210237109420063>"))
+
 @bot.command()
 async def menu2(ctx, member: discord.Member = None):
     if member == None:
@@ -66,83 +64,33 @@ async def menu2(ctx, member: discord.Member = None):
     name = member.display_name
     pfp = member.display_avatar
 
-    embed = discord.Embed(title="What role(s) do you usually play?      ",
+    embed = discord.Embed(title="What role(s) do you play?",
                           description="",
                           colour=0xFF0000)
     embed.set_author(
         name="Budget Dyno",
         icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
     embed.add_field(name="<:topl:1193209344968368189> Top",
-                    value="Top lane",
+                    value="",
                     inline=False)
     embed.add_field(name="<:jungle:1193210201759817829> Jungle",
-                    value="Jungle",
+                    value="",
                     inline=False)
     embed.add_field(name="<:mid:1193209803145752639> Mid",
-                    value="Mid lane",
+                    value="",
                     inline=False)
     embed.add_field(name="<:adc:1193209950462279900> Adc",
-                    value="Bot lane",
+                    value="",
                     inline=False)
     embed.add_field(name="<:supp:1193210180658274396> Support",
-                    value="Support",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:fill:1193210237109420063> Fill",
+                    value="",
                     inline=False)
 
-    msg = await ctx.send(embed=embed)
-    await ctx.send("-------------------------------------------")
-    reactions_roles = {
-        "<:topl:1193209344968368189>": "Top",
-        "<:jungle:1193210201759817829>": "Jungle",
-        "<:mid:1193209803145752639>": "Mid",
-        "<:adc:1193209950462279900>": "Adc",
-        "<:supp:1193210180658274396>": "Support"
-    }
-    for reaction in reactions_roles.keys():
-        await msg.add_reaction(reaction)
-
-@bot.event
-async def on_reaction_add(reaction, user):
-    if user.bot:
-        return
-    guild = reaction.message.guild
-    reactions_roles = {
-        "<:topl:1193209344968368189>": "Top",
-        "<:jungle:1193210201759817829>": "Jungle",
-        "<:mid:1193209803145752639>": "Mid",
-        "<:bot:1193209950462279900>": "Adc",
-        "<:supp:1193210180658274396>": "Support"
-    }
-    role_name = reactions_roles.get(str(reaction.emoji))
-    if role_name:
-        role = discord.utils.get(guild.roles, name=role_name)
-        await user.add_roles(role)
-
-@bot.event
-async def on_raw_reaction_remove(payload):
-    print(f"Raw reaction removed: {payload.emoji}")
-    guild = await bot.fetch_guild(payload.guild_id)
-    user = await guild.fetch_member(payload.user_id)
-    reactions_roles = {
-        "<:topl:1193209344968368189>": "Top",
-        "<:jungle:1193210201759817829>": "Jungle",
-        "<:mid:1193209803145752639>": "Mid",
-        "<:bot:1193209950462279900>": "Adc",
-        "<:supp:1193210180658274396>": "Support"
-    }
-    role_name = reactions_roles.get(str(payload.emoji))
-    if role_name:
-        role = discord.utils.get(guild.roles, name=role_name)
-        if role:
-            print(f"Role found: {role.name}")
-            try:
-                await user.remove_roles(role)
-            except Exception as e:
-                print(f"Failed to remove role {role_name} from user {user.name}: {e}")
-        else:
-            print(f"Role not found: {role_name}")
-    else:
-        print(f"Reaction not in reactions_roles: {payload.emoji}")
-
+    msg = await ctx.send(embed=embed, view=RoleView1())
+    msg2 = await ctx.send(view=RoleView2())
 
 
 class MySelect(View):
@@ -260,7 +208,5 @@ async def menu(ctx):
     icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
     view = MySelect()
     await ctx.send(embed=emb, view=view)
-
-
 
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
