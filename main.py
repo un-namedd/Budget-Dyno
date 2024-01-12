@@ -22,8 +22,8 @@ async def on_ready():
     print('Bot is ready.')
 
 class RoleButton(Button):
-    def __init__(self, role_name, emoji):
-        super().__init__(style=ButtonStyle.grey, label="", custom_id=role_name, emoji=emoji)
+    def __init__(self, role_name, emoji, row):
+        super().__init__(style=ButtonStyle.grey, label="", custom_id=role_name, emoji=emoji, row=row)
         self.role_name = role_name
 
     async def callback(self, interaction):
@@ -31,30 +31,26 @@ class RoleButton(Button):
         role = discord.utils.get(interaction.guild.roles, name=self.role_name)
         if role in member.roles:
             await member.remove_roles(role)
-            emb = discord.Embed(title="Role update",
+            emb = discord.Embed(title="Role Update!",
                                 description=f"Removed {role.mention}",
                                 color=discord.Color.blue())
             await interaction.response.send_message(embed=emb, ephemeral=True)
         else:
             await member.add_roles(role)
-            emb2 = discord.Embed(title="Role update",
+            emb2 = discord.Embed(title="Role Update!",
                                 description=f"Added {role.mention}",
                                 color=discord.Color.blue())
             await interaction.response.send_message(embed=emb2, ephemeral=True)
 
-class RoleView1(View):
+class RoleView(View):
     def __init__(self):
         super().__init__()
-        self.add_item(RoleButton("Top", "<:topl:1193209344968368189>"))
-        self.add_item(RoleButton("Jungle", "<:jungle:1193210201759817829>"))
-        self.add_item(RoleButton("Mid", "<:mid:1193209803145752639>"))
-
-class RoleView2(View):
-    def __init__(self):
-        super().__init__()
-        self.add_item(RoleButton("Adc", "<:bot:1193209950462279900>"))
-        self.add_item(RoleButton("Support", "<:supp:1193210180658274396>"))
-        self.add_item(RoleButton("Fill", "<:fill:1193210237109420063>"))
+        self.add_item(RoleButton("Top", "<:topl:1193209344968368189>", row=0))
+        self.add_item(RoleButton("Jungle", "<:jungle:1193210201759817829>", row=0))
+        self.add_item(RoleButton("Mid", "<:mid:1193209803145752639>", row=0))
+        self.add_item(RoleButton("Adc", "<:bot:1193209950462279900>", row=1))
+        self.add_item(RoleButton("Support", "<:supp:1193210180658274396>", row=1))
+        self.add_item(RoleButton("Fill", "<:fill:1193210237109420063>", row=1))
 
 @bot.command()
 async def menu2(ctx, member: discord.Member = None):
@@ -68,8 +64,8 @@ async def menu2(ctx, member: discord.Member = None):
                           description="",
                           colour=0xFF0000)
     embed.set_author(
-        name="Budget Dyno",
-        icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
+        name="Intsuo",
+        icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
     embed.add_field(name="<:topl:1193209344968368189> Top",
                     value="",
                     inline=False)
@@ -79,7 +75,7 @@ async def menu2(ctx, member: discord.Member = None):
     embed.add_field(name="<:mid:1193209803145752639> Mid",
                     value="",
                     inline=False)
-    embed.add_field(name="<:adc:1193209950462279900> Adc",
+    embed.add_field(name="<:bot:1193209950462279900> Adc",
                     value="",
                     inline=False)
     embed.add_field(name="<:supp:1193210180658274396> Support",
@@ -89,8 +85,7 @@ async def menu2(ctx, member: discord.Member = None):
                     value="",
                     inline=False)
 
-    msg = await ctx.send(embed=embed, view=RoleView1())
-    msg2 = await ctx.send(view=RoleView2())
+    msg = await ctx.send(embed=embed, view=RoleView())
 
 
 class MySelect(View):
@@ -204,8 +199,8 @@ async def menu(ctx):
                           description="",
                           colour=0xFF0000)
     emb.set_author(
-    name="Budget Dyno",
-    icon_url="https://dyno.gg/images/dyno-blitz-v2-transparent-bg.png")
+    name="Intsuo",
+    icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
     view = MySelect()
     await ctx.send(embed=emb, view=view)
 
