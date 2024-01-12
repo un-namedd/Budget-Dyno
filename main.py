@@ -7,6 +7,9 @@ import json
 from discord import ButtonStyle
 from discord.ui import View, Button
 from discord.ext import commands
+from keep_alive import keep_alive
+
+keep_alive()
 
 my_secret = 'MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE'
 
