@@ -185,13 +185,13 @@ class MySelect(View):
     if new_role:
       await user.add_roles(new_role)
       if removed_role:
-          embed = discord.Embed(title="Rank Updated!", description=f"Removed {removed_role.mention}!\n\nAdded{new_role.mention}!", color=discord.Color.blue())
+          embed = discord.Embed(title="Rank Update!", description=f"Removed {removed_role.mention}!\n\nAdded {new_role.mention}!", color=discord.Color.blue())
           await interaction.response.send_message(embed=embed, ephemeral=True)
       else:
-          embed = discord.Embed(title="Rank Added!", description=f"{new_role.mention} role added!", color=discord.Color.blue())
+          embed = discord.Embed(title="Rank Update!", description=f"Added {new_role.mention}!", color=discord.Color.blue())
           await interaction.response.send_message(embed=embed, ephemeral=True)
     elif select.values[0] == "12":
-        await interaction.response.send_message("All ranked roles removed!", ephemeral=True)
+        await interaction.response.send_message("Removed all ranks!", ephemeral=True)
 
 @bot.command()
 async def menu(ctx):
