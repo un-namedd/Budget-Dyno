@@ -47,7 +47,7 @@ class RoleButton(Button):
 
 class RoleView(View):
     def __init__(self):
-        super().__init__()
+        super().__init__(timeout=None)
         self.add_item(RoleButton("Top", "<:topl:1193209344968368189>", row=0))
         self.add_item(RoleButton("Jungle", "<:jungle:1193210201759817829>", row=0))
         self.add_item(RoleButton("Mid", "<:mid:1193209803145752639>", row=0))
@@ -205,6 +205,7 @@ async def menu(ctx):
     name="Intsuo",
     icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
     view = MySelect()
+    view.timeout = None
     await ctx.send(embed=emb, view=view)
 
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
