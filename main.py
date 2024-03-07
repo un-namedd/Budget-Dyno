@@ -4,7 +4,7 @@ import discord.ui
 import time
 import requests
 import json
-from discord import ButtonStyle
+from discord import ButtonStyle, app_commands
 from discord.ui import View, Button
 from discord.ext import commands
 from keep_alive import keep_alive
@@ -18,11 +18,16 @@ intents.messages = True
 intents.reactions = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix="!", intents = discord. Intents. all())
 
 @bot.event
 async def on_ready():
-    print('Bot is ready.')
+    print("Bot is Up and Ready!")
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
 
 class RoleButton(Button):
     def __init__(self, role_name, emoji, row):
@@ -208,7 +213,7 @@ async def menu(ctx):
     view.timeout = None
     await ctx.send(embed=emb, view=view)
 
-@bot.slash(name="role_remove", description="Remove a role from a user.")
+@bot.tree.command(name="role_remove", description="Remove a role from a user.")
 async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
     if interaction.user.guild_permissions.administrator or any(role.name == "admins" for role in interaction.user.roles):
         if role in member.roles:
