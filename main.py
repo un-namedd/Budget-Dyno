@@ -217,6 +217,6 @@ async def role_remove(interaction: discord.Interaction, member: discord.Member, 
         else:
             await interaction.response.send_message(f"{member.name} does not have the role {role.name}.", ephemeral=True)
     else:
-        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True
+        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
 
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
