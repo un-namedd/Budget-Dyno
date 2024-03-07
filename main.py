@@ -215,7 +215,7 @@ async def menu(ctx):
 
 @bot.tree.command(name="role_remove", description="Remove a role from a user.")
 async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
-    if interaction.user.guild_permissions.administrator or any(role.name == "admins" for role in interaction.user.roles):
+    if interaction.user.id == 769070942440914946:
         if role in member.roles:
             await member.remove_roles(role)
             await interaction.response.send_message(f"Successfully removed role {role.name} from {member.name}.", ephemeral=True)
@@ -226,7 +226,7 @@ async def role_remove(interaction: discord.Interaction, member: discord.Member, 
 
 @bot.tree.command(name="role_add", description="Add a role to a user.")
 async def role_add(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
-    if interaction.user.guild_permissions.administrator or any(role.name == "admins" for role in interaction.user.roles):
+    if interaction.user.id == 769070942440914946:
         if role not in member.roles:
             await member.add_roles(role)
             await interaction.response.send_message(f"Successfully added role {role.name} to {member.name}.", ephemeral=True)
