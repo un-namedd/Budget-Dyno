@@ -1,5 +1,4 @@
-pip install --upgrade pip
-pip install --upgrade discord.py
+discord.py>=2.0.0
 discord.py
 discord
 discord.ui
