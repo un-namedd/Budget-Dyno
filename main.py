@@ -19,7 +19,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.event
 async def on_ready():
-    print("Bot is Up and Ready!")
+  print("Bot is Up and Ready!")
 
 class RoleButton(Button):
     def __init__(self, role_name, emoji, row):
