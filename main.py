@@ -208,20 +208,15 @@ async def menu(ctx):
     view.timeout = None
     await ctx.send(embed=emb, view=view)
 
-@bot.command()
-@commands.has_role('admins')  # Only users with the 'admins' role can use this command
-async def role(ctx, member: discord.Member):
-    roles = [role.name for role in member.roles if role.name != '@everyone']  # Exclude the @everyone role
-    if roles:
-        roles_string = ', '.join(roles)
-        await member.remove_roles(*member.roles[1:])  # Remove all roles except @everyone
-        await ctx.send(f"Removed roles from {member.display_name}: {roles_string}")
+@bot.slash(name="role_remove", description="Remove a role from a user.")
+async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
+    if interaction.user.guild_permissions.administrator or any(role.name == "admins" for role in interaction.user.roles):
+        if role in member.roles:
+            await member.remove_roles(role)
+            await interaction.response.send_message(f"Successfully removed role {role.name} from {member.name}.", ephemeral=True)
+        else:
+            await interaction.response.send_message(f"{member.name} does not have the role {role.name}.", ephemeral=True)
     else:
-        await ctx.send(f"{member.display_name} doesn't have any roles.")
-
-@role.error
-async def role_error(ctx, error):
-    if isinstance(error, commands.MissingRole):
-        await ctx.send("You don't have permission to use this command.")
+        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True
 
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
