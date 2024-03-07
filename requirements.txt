@@ -1,5 +1,4 @@
 discord.py>=2.0.0
-discord.py
 discord
 discord.ui
 discord-ext-alternatives
