@@ -208,4 +208,20 @@ async def menu(ctx):
     view.timeout = None
     await ctx.send(embed=emb, view=view)
 
+@bot.command()
+@commands.has_role('admins')  # Only users with the 'admins' role can use this command
+async def role(ctx, member: discord.Member):
+    roles = [role.name for role in member.roles if role.name != '@everyone']  # Exclude the @everyone role
+    if roles:
+        roles_string = ', '.join(roles)
+        await member.remove_roles(*member.roles[1:])  # Remove all roles except @everyone
+        await ctx.send(f"Removed roles from {member.display_name}: {roles_string}")
+    else:
+        await ctx.send(f"{member.display_name} doesn't have any roles.")
+
+@role.error
+async def role_error(ctx, error):
+    if isinstance(error, commands.MissingRole):
+        await ctx.send("You don't have permission to use this command.")
+
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
