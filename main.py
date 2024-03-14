@@ -19,9 +19,9 @@ async def on_ready():
   print("Bot is Up and Ready!")
   try:
     synced = await bot.tree.sync()
-        print(f"Synced {len(synced)} command(s)")
-    except Exception as e:
-        print(e)
+    print(f"Synced {len(synced)} command(s)")
+  except Exception as e:
+    print(e)
 
 class RoleButton(Button):
     def __init__(self, role_name, emoji, row):
