@@ -1,9 +1,11 @@
-
 import discord
 import discord.ui
 from discord import ButtonStyle
 from discord.ui import View, Button
 from discord.ext import commands
+from keep_alive import keep_alive
+
+keep_alive()
 
 intents = discord.Intents().all()
 intents.messages = True
@@ -231,5 +233,5 @@ async def on_message(message):
   return
   if message.content.startswith('hi'):
   await message.channel.send('kys')
-
+  
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
