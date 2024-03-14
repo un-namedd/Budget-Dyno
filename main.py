@@ -16,9 +16,9 @@ bot = commands.Bot(command_prefix="!", intents = discord.Intents.all(), status =
 
 @bot.event
 async def on_ready():
-    print("Bot is Up and Ready!")
-    try:
-        synced = await bot.tree.sync()
+  print("Bot is Up and Ready!")
+  try:
+    synced = await bot.tree.sync()
         print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
