@@ -1,26 +1,18 @@
-import os
+
 import discord
 import discord.ui
-import time
-import requests
-import json
-from discord import ButtonStyle, app_commands
+from discord import ButtonStyle
 from discord.ui import View, Button
 from discord.ext import commands
-from keep_alive import keep_alive
-
-keep_alive()
-
-my_secret = 'MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE'
 
 intents = discord.Intents().all()
 intents.messages = True
 intents.reactions = True
 intents.message_content = True
 
-activity = discord.Activity(type=discord.ActivityType.watching, name="you rn.")
+activity = discord.Activity(type=discord.ActivityType.watching, name='you rn.')
 
-bot = commands.Bot(command_prefix="!", intents = discord.Intents.all(), status = discord.Status.do_not_disturb, activity=activity)
+bot = commands.Bot(command_prefix='!', intents=intents, status=discord.Status.do_not_disturb, activity=activity)
 
 @bot.event
 async def on_ready():
@@ -62,44 +54,9 @@ class RoleView(View):
         self.add_item(RoleButton("Support", "<:supp:1193210180658274396>", row=1))
         self.add_item(RoleButton("Fill", "<:fill:1193210237109420063>", row=1))
 
-@bot.command()
-async def menu2(ctx, member: discord.Member = None):
-    if member == None:
-        member = ctx.author
-
-    name = member.display_name
-    pfp = member.display_avatar
-
-    embed = discord.Embed(title="What role(s) do you play?",
-                          description="",
-                          colour=0xFF0000)
-    embed.set_author(
-        name="Intsuo",
-        icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
-    embed.add_field(name="<:topl:1193209344968368189> Top",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:jungle:1193210201759817829> Jungle",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:mid:1193209803145752639> Mid",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:bot:1193209950462279900> Adc",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:supp:1193210180658274396> Support",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:fill:1193210237109420063> Fill",
-                    value="",
-                    inline=False)
-
-    msg = await ctx.send(embed=embed, view=RoleView())
 
 
 class MySelect(View):
-
   @discord.ui.select(
       placeholder="Choose an option",
       options=[
@@ -203,18 +160,6 @@ class MySelect(View):
     elif select.values[0] == "12":
         await interaction.response.send_message("Removed all ranks!", ephemeral=True)
 
-@bot.command()
-async def menu(ctx):
-    emb = discord.Embed(title="What's your current rank in the game?",
-                          description="",
-                          colour=0xFF0000)
-    emb.set_author(
-    name="Intsuo",
-    icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
-    view = MySelect()
-    view.timeout = None
-    await ctx.send(embed=emb, view=view)
-
 @bot.tree.command(name="role_remove", description="Remove a role from a user.")
 async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
     if interaction.user.id == 769070942440914946:
@@ -237,11 +182,55 @@ async def role_add(interaction: discord.Interaction, member: discord.Member, rol
     else:
         await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
 
+@bot.command()
+async def menu2(ctx, member: discord.Member = None):
+    if member == None:
+        member = ctx.author
+    embed = discord.Embed(title="What role(s) do you play?",
+                          description="",
+                          colour=0xFF0000)
+    embed.set_author(
+        name="Intsuo",
+        icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
+    embed.add_field(name="<:topl:1193209344968368189> Top",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:jungle:1193210201759817829> Jungle",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:mid:1193209803145752639> Mid",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:bot:1193209950462279900> Adc",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:supp:1193210180658274396> Support",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:fill:1193210237109420063> Fill",
+                    value="",
+                    inline=False)
+
+    await ctx.send(embed=embed, view=RoleView(), ephemeral=False)
+
+@bot.command()
+async def menu(ctx):
+    emb = discord.Embed(title="What's your current rank in the game?",
+                          description="",
+                          colour=0xFF0000)
+    emb.set_author(
+    name="Intsuo",
+    icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
+    view = MySelect()
+    view.timeout = None
+    await ctx.send(embed=emb, view=view)
+
 @bot.event
 async def on_message(message):
-  if message.author == bot.user:
-    return
-  if message.content.startswith('hi'):
-    await message.channel.send('kys')
+    if message.author == bot.user:
+        return
 
+    if message.content.startswith('hi'):
+        await message.channel.send('kys')
+    
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
