@@ -25,6 +25,40 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+
+
+
+@bot.tree.command(name="assignlane", description="Display the lane selection menu.")
+async def assignlane(interaction: discord.Interaction):
+    embed = discord.Embed(title="What role(s) do you play?",
+                          description="",
+                          colour=0xFF0000)
+    embed.set_author(
+        name="Intsuo",
+        icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
+    embed.add_field(name="<:topl:1193209344968368189> Top",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:jungle:1193210201759817829> Jungle",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:mid:1193209803145752639> Mid",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:bot:1193209950462279900> Adc",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:supp:1193210180658274396> Support",
+                    value="",
+                    inline=False)
+    embed.add_field(name="<:fill:1193210237109420063> Fill",
+                    value="",
+                    inline=False)
+
+    await interaction.response.send_message(embed=embed, view=RoleView(), ephemeral=True)
+    
+
+
 class RoleButton(Button):
     def __init__(self, role_name, emoji, row):
         super().__init__(style=ButtonStyle.grey, label="", custom_id=role_name, emoji=emoji, row=row)
@@ -46,6 +80,8 @@ class RoleButton(Button):
                                 color=discord.Color.blue())
             await interaction.response.send_message(embed=emb2, ephemeral=True)
 
+
+
 class RoleView(View):
     def __init__(self):
         super().__init__(timeout=None)
@@ -58,6 +94,28 @@ class RoleView(View):
 
 
 
+
+################################ ✅ Assign Rank COMMAND ✅ #################################
+################################ ✅ Assign Rank COMMAND ✅ #################################
+################################ ✅ Assign Rank COMMAND ✅ #################################
+################################ ✅ Assign Rank COMMAND ✅ #################################
+################################ ✅ Assign Rank COMMAND ✅ #################################
+
+
+
+
+@bot.tree.command(name="assignrank", description="Display the rank selection menu.")
+async def assignrank(interaction: discord.Interaction):
+    emb = discord.Embed(title="What's your current rank in the game?",
+                        description="",
+                        color=0xFF0000)
+    emb.set_author(
+    name="Intsuo",
+    icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
+    view = MySelect()
+    view.timeout = None
+    await interaction.response.send_message(embed=emb, view=view, ephemeral=True)
+    
 class MySelect(View):
     @discord.ui.select(
         placeholder="Choose an option",
@@ -162,6 +220,27 @@ class MySelect(View):
         elif select.values[0] == "12":
             await interaction.response.send_message("Removed all ranks!", ephemeral=True)
 
+
+
+
+
+################################ ❌ Assign Rank END ❌ #################################
+################################ ❌ Assign Rank END ❌ #################################
+################################ ❌ Assign Rank END ❌ #################################
+################################ ❌ Assign Rank END ❌ #################################
+################################ ❌ Assign Rank END ❌ #################################
+
+
+
+################################ ✅ ROLES COMMAND ✅ #################################
+################################ ✅ ROLES COMMAND ✅ #################################
+################################ ✅ ROLES COMMAND ✅ #################################
+################################ ✅ ROLES COMMAND ✅ #################################
+################################ ✅ ROLES COMMAND ✅ #################################
+
+
+
+
 @bot.tree.command(name="role_remove", description="Remove a role from a user.")
 async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
     if interaction.user.id == 769070942440914946:
@@ -184,48 +263,15 @@ async def role_add(interaction: discord.Interaction, member: discord.Member, rol
     else:
         await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
 
-@bot.command()
-async def menu2(ctx, member: discord.Member = None):
-    if member == None:
-        member = ctx.author
-    embed = discord.Embed(title="What role(s) do you play?",
-                          description="",
-                          colour=0xFF0000)
-    embed.set_author(
-        name="Intsuo",
-        icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
-    embed.add_field(name="<:topl:1193209344968368189> Top",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:jungle:1193210201759817829> Jungle",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:mid:1193209803145752639> Mid",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:bot:1193209950462279900> Adc",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:supp:1193210180658274396> Support",
-                    value="",
-                    inline=False)
-    embed.add_field(name="<:fill:1193210237109420063> Fill",
-                    value="",
-                    inline=False)
 
-    await ctx.send(embed=embed, view=RoleView(), ephemeral=False)
 
-@bot.command()
-async def menu(ctx):
-    emb = discord.Embed(title="What's your current rank in the game?",
-                        description="",
-                        olour=0xFF0000)
-    emb.set_author(
-    name="Intsuo",
-    icon_url="https://cdn.discordapp.com/avatars/769070942440914946/b1d3dc88c77b4d96adfc8a899e4c4838.webp?size=80")
-    view = MySelect()
-    view.timeout = None
-    await ctx.send(embed=emb, view=view)
+
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+
 
 @bot.event
 async def on_message(message):
