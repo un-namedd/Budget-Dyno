@@ -27,7 +27,6 @@ async def on_ready():
 
 
 
-
 @bot.tree.command(name="assignlane", description="Display the lane selection menu.")
 async def assignlane(interaction: discord.Interaction):
     embed = discord.Embed(title="What role(s) do you play?",
@@ -54,7 +53,6 @@ async def assignlane(interaction: discord.Interaction):
     embed.add_field(name="<:fill:1193210237109420063> Fill",
                     value="",
                     inline=False)
-
     await interaction.response.send_message(embed=embed, view=RoleView(), ephemeral=True)
     
 
@@ -223,7 +221,6 @@ class MySelect(View):
 
 
 
-
 ################################ ❌ Assign Rank END ❌ #################################
 ################################ ❌ Assign Rank END ❌ #################################
 ################################ ❌ Assign Rank END ❌ #################################
@@ -237,7 +234,6 @@ class MySelect(View):
 ################################ ✅ ROLES COMMAND ✅ #################################
 ################################ ✅ ROLES COMMAND ✅ #################################
 ################################ ✅ ROLES COMMAND ✅ #################################
-
 
 
 
@@ -265,12 +261,30 @@ async def role_add(interaction: discord.Interaction, member: discord.Member, rol
 
 
 
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
+################################ ❌ ROLES COMMAND END ❌ #################################
 
-################################ ❌ ROLES COMMAND END ❌ #################################
-################################ ❌ ROLES COMMAND END ❌ #################################
-################################ ❌ ROLES COMMAND END ❌ #################################
-################################ ❌ ROLES COMMAND END ❌ #################################
-################################ ❌ ROLES COMMAND END ❌ #################################
+
+
+@bot.tree.command(name="nick", description="Change the nickname of a user.")
+async def nick(interaction: discord.Interaction, member: discord.Member, nickname: str):
+    if interaction.user.id == 769070942440914946:
+        await member.edit(nick=nickname)
+        await interaction.response.send_message(f"Successfully changed {member.name}'s nickname to {nickname}.", ephemeral=True)
+    else:
+        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
+
+@bot.tree.command(name="botnick", description="Change the nickname of the bot.")
+async def botnick(interaction: discord.Interaction, nickname: str):
+    if interaction.user.id == 769070942440914946:
+        await interaction.guild.me.edit(nick=nickname)
+        await interaction.response.send_message(f"Successfully changed the bot's nickname to {nickname}.", ephemeral=True)
+    else:
+        await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
+
 
 
 @bot.event
