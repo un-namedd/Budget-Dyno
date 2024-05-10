@@ -14,7 +14,6 @@ activity = discord.Activity(type=discord.ActivityType.watching, name="you rn.")
 
 bot = commands.Bot(command_prefix="!", intents = discord.Intents.all(), status = discord.Status.do_not_disturb, activity=activity)
 
-
 @bot.event
 async def on_ready():
     print("Bot is Up and Ready!")
@@ -24,9 +23,7 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-#########################################################################################################################################
-######################################################       Roles       ################################################################
-#########################################################################################################################################
+
 
 @bot.tree.command(name="role_remove", description="Remove a role from a user.")
 async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
@@ -73,9 +70,7 @@ async def role_info(interaction: discord.Interaction, role: discord.Role):
     else:
         await interaction.response.send_message("You do not have permission to use this command.", ephemeral=True)
 
-#########################################################################################################################################
-######################################################        Nick       ################################################################
-#########################################################################################################################################
+
 
 @bot.tree.command(name="nick", description="Change the nickname of a user.")
 async def nick(interaction: discord.Interaction, member: discord.Member, nickname: str):
