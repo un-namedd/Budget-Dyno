@@ -1,6 +1,5 @@
 discord.py>=2.0.0
 discord
 discord.ui
-discord-ext-alternatives
 flask
 requests
