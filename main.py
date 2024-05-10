@@ -1,6 +1,9 @@
 import discord
 import discord.ui
 from discord.ext import commands
+from keep_alive import keep_alive
+
+keep_alive()
 
 intents = discord.Intents().all()
 intents.messages = True
