@@ -3,3 +3,4 @@ discord
 discord.ui
 flask
 requests
+asyncio
