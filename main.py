@@ -102,7 +102,7 @@ async def nick(interaction: discord.Interaction, member: discord.Member, nicknam
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
-@bot.tree.command(name="league_stats", description="EUW only. Get info about the given player. e.g Name: Budget Yasuo | (No #) tag: OwO)")
+@bot.tree.command(name="summoner_stats", description="EUW. Get info about the given player. e.g Name: Budget Yasuo | (No #) tag: OwO)")
 async def summoner(interaction: discord.Interaction, ign: str, tag: str):
     ign.lower()
     ign.capitalize()
@@ -124,34 +124,35 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                             if encrypted_id_resp.status == 200:
                                 league_v4_resp = await encrypted_id_resp.json()
                                 summoner_id = league_v4_resp["id"]
-                                
+
                                 async with session.get(f"https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/{summoner_puuid}/top?count=3&api_key={API_KEY}") as mastery_resp:
                                     if mastery_resp.status == 200:
                                         mastery_data = await mastery_resp.json()
 
                                         top_champions = sorted(mastery_data, key=lambda x: x["championPoints"], reverse=True)[:3]
 
-                                        champ_1_mastery = "{:,}".format(top_champions[0]["championPoints"])
-                                        champ_2_mastery = "{:,}".format(top_champions[1]["championPoints"])
-                                        champ_3_mastery = "{:,}".format(top_champions[2]["championPoints"])
-                                        
-                                        champ_1 = str(top_champions[0]["championId"])
-                                        champ_2 = str(top_champions[1]["championId"])
-                                        champ_3 = str(top_champions[2]["championId"])
+                                        champ_1_points = "{:,}".format(top_champions[0]["championPoints"])
+                                        champ_2_points = "{:,}".format(top_champions[1]["championPoints"])
+                                        champ_3_points = "{:,}".format(top_champions[2]["championPoints"])
+
+                                        level_emojis = {
+                                            7: '<:m7:1239797721620021278>',
+                                            6: '<:m6:1239797849152159825>',
+                                            5: '<:m5:1239798163918032948>',
+                                            4: '<:m4:1239798007034155101>'
+                                        }
+
+                                        champ_levels = [top_champions[i]["championLevel"] for i in [0, 1, 2]]
+                                        champ_levels = [level_emojis.get(level, str(level)) for level in champ_levels]
+                                        champ_ids = [str(top_champions[i]["championId"]) for i in [0, 1, 2]]
 
                                         async with session.get(f"https://ddragon.leagueoflegends.com/cdn/14.9.1/data/en_US/champion.json") as champ_resp:
                                             if champ_resp.status == 200:
                                                 champ_data = await champ_resp.json()
 
-                                                champion_name_key_map = {}
+                                                champion_name_key_map = {champion_info["key"]: champion_name for champion_name, champion_info in champ_data["data"].items()}
 
-                                                for champion_name, champion_info in champ_data["data"].items():
-                                                    champion_key = champion_info["key"]
-                                                    champion_name_key_map[champion_key] = champion_name
-
-                                                champion_name_1 = champion_name_key_map[champ_1]
-                                                champion_name_2 = champion_name_key_map[champ_2]
-                                                champion_name_3 = champion_name_key_map[champ_3]
+                                                champ_names = [champion_name_key_map[champ_id] for champ_id in champ_ids]
                                                     
                                                 async with session.get(f"https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}?api_key={API_KEY}") as rank_resp:
                                                     if rank_resp.status == 200:
@@ -167,54 +168,72 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                                                         losses_solo_duo = 0
                                                         Lp_solo_duo = 0
 
+                                                        emoji_dict = {
+                                                            "IRON": "<:iron:1193213193212940429>",
+                                                            "BRONZE": "<:bronze:1193213933625032864>",
+                                                            "SILVER": "<:silver:1193213895029035008>",
+                                                            "GOLD": "<:gold:1193213912439607316>",
+                                                            "PLATINUM": "<:platinum:1193213880554500218>",
+                                                            "EMERALD": "<:emerald:1193298992000401409>",
+                                                            "DIAMOND": "<:diamond:1193213838141693973>",
+                                                            "MASTER": "<:master:1193213238616272950>",
+                                                            "GRANDMASTER": "<:grandmaster:1193213814586490980>",
+                                                            "CHALLENGER": "<:challenger:1193213213152641124>"
+                                                        }
+
                                                         for entry in rank_data:
                                                             if entry["queueType"] == "RANKED_SOLO_5x5":
-                                                                ranked_solo_duo = entry["tier"].lower().capitalize() + " " + entry["rank"]
-                                                                if "Iron" in ranked_solo_duo:
-                                                                    ranked_solo_duo = "<:platinum:1193213880554500218> " + entry["tier"].capitalize() + " " + entry["rank"]
-                                                                    
-                                                                elif "Platinum" in ranked_solo_duo:
-                                                                    ranked_solo_duo = "<:platinum:1193213880554500218> " + entry["tier"].capitalize() + " " + entry["rank"]
-                                                                    
-                                                                else:
-                                                                    ranked_solo_duo = entry["tier"].lower().capitalize() + " " + entry["rank"]
+                                                                tier_name = entry["tier"].upper()
+                                                                ranked_solo_duo = f"{emoji_dict[tier_name]} {tier_name.capitalize()} {entry['rank']}"
                                                                 Lp_solo_duo = entry["leaguePoints"]
                                                                 wins_solo_duo = entry["wins"]
                                                                 losses_solo_duo = entry["losses"]
                                                                 break
-                                                            
+
                                                         for entry_2 in rank_data:
                                                             if entry_2["queueType"] == "RANKED_FLEX_SR":
-                                                                ranked_flex = entry_2["tier"].lower().capitalize() + " " + entry_2["rank"]
+                                                                tier_name = entry_2["tier"].upper()
+                                                                ranked_flex = f"{emoji_dict[tier_name]} {tier_name.capitalize()} {entry_2['rank']}"
                                                                 Lp_flex = entry_2["leaguePoints"]
                                                                 wins_flex = entry_2["wins"]
                                                                 losses_flex = entry_2["losses"]
                                                                 break
-                                                        
+
                                                         winrate_solo_duo = round(wins_solo_duo / (wins_solo_duo+losses_solo_duo), 2) * 100 if wins_solo_duo + losses_solo_duo > 0 else "N/A"
                                                         winrate_flex = round(wins_flex / (wins_flex+losses_flex), 2) * 100 if wins_flex + losses_flex > 0 else "N/A"
+
+                                                        embedmain = discord.Embed(title=f"{ign} #{tag}", colour=discord.Colour.brand_red())
+
+                                                        embedmain.add_field(name="Account Level", value=league_v4_resp["summonerLevel"], inline=False)
+
+                                                        embedmain.add_field(name="Ranked Solo/Duo", value=f"{ranked_solo_duo} {Lp_solo_duo} LP", inline=True)
+                                                        embedmain.add_field(name="Ranked Flex", value=f"{ranked_flex} {Lp_flex} LP", inline=True)
+                                                        embedmain.add_field(name="", value=f"", inline=False)
                                                         
-                                                        embed = discord.Embed(title=f"Summoner Data: {ign} #{tag}", colour=discord.Colour.brand_red())
-                                                        
-                                                        embed.add_field(name="Ranked Solo/Duo", value=f"{ranked_solo_duo} {Lp_solo_duo} LP", inline=True)
-                                                        embed.add_field(name="Ranked Flex", value=f"{ranked_flex} {Lp_flex} LP", inline=True)
-                                                        embed.add_field(name="", value=f"", inline=False)
-                                                        
-                                                        
-                                                        embed.add_field(name="Win Rate", value=f"{winrate_solo_duo}%", inline=True)
-                                                        embed.add_field(name="Win Rate", value=f"{winrate_flex}%", inline=True)
-                                                        
-                                                        embed.add_field(name="Top Mastery:", value=f"", inline=False)
-                                                        embed.add_field(name="1.", value=f"{champion_name_1}: {champ_1_mastery} Points", inline=False)
-                                                        embed.add_field(name="2.", value=f"{champion_name_2}: {champ_2_mastery} Points", inline=True)
-                                                        embed.add_field(name="3.", value=f"{champion_name_3}: {champ_3_mastery} Points", inline=False)
-                                                        
-                                                        embed.add_field(name="Account Level", value=league_v4_resp["summonerLevel"], inline=False)
-                                                        embed.set_footer(text="In development, expect some bugs.")
-                                                        embed.set_author(name=f"Intsuo", icon_url=f"https://cdn.discordapp.com/avatars/769070942440914946/5a3f6552462c96dc32a1d88c716b2c90.webp?size=32")
-                                                        await interaction.response.send_message(embed=embed, ephemeral=True)
+                                                        embedmain.add_field(name="Winrate Solo/Duo", value=f"{winrate_solo_duo} %", inline=True)
+                                                        embedmain.add_field(name="Winrate Flex", value=f"{winrate_flex} %", inline=True)
+
+                                                        embedmain.add_field(name="Top Mastery:", value=f"", inline=False)
+
+                                                        for i, (champion_level, champion_name, champ_points) in enumerate(zip(champ_levels, champ_names, [champ_1_points, champ_2_points, champ_3_points])):
+                                                            embedmain.add_field(name=f"{champion_level}  {champion_name}: {champ_points} Points", value="", inline=i % 2 == 0)
+
+                                                        embedmain.set_footer(text="In development, please expect some bugs. ^^ ")
+                                                        embedmain.set_author(name=f"Summoner Data")
+
+                                                        try:
+                                                            await interaction.response.send_message(embed=embedmain, ephemeral=True)
+                                                        except discord.HTTPException:
+                                                            embed = discord.Embed(title="Error", description="Failed to send data. Please try again.", color=discord.Colour.red())
+                                                            await interaction.followup.send(embed=embed)
+                                                    else:
+                                                        embed = discord.Embed(title="Error", description="Failed to retrieve Account Rank. Riot API down?", color=discord.Colour.red())
+                                                        await interaction.response.send_message(embed=embed)
+                                            else:
+                                                embed = discord.Embed(title="Error", description="Failed to retrieve champion.json file. Riot API down?", color=discord.Colour.red())
+                                                await interaction.response.send_message(embed=embed)
                                     else:
-                                        embed = discord.Embed(title="Error", description="Failed to retrieve Account Rank. Riot API down?", color=discord.Colour.red())
+                                        embed = discord.Embed(title="Error", description="Failed to retrieve Account Mastery. Riot API down?", color=discord.Colour.red())
                                         await interaction.response.send_message(embed=embed)
                             else:
                                 embed = discord.Embed(title="Error", description="Failed to retrieve Account ID. Riot API down?", color=discord.Colour.red())
@@ -223,7 +242,8 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                         embed = discord.Embed(title="Error", description="Failed to retrieve Game Details. Riot API down?", color=discord.Colour.red())
                         await interaction.response.send_message(embed=embed)
             else:
-                embed = discord.Embed(title="Error", description="Failed to retrieve PUUID. Make sure you've entered your correct Username and tag!", color=discord.Colour.red())
+                embed = discord.Embed(title="Error", description="Failed to retrieve User PUUID. Incorrect IGN or Tag line", color=discord.Colour.red())
+                embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
 
 bot.run('MTE5MzUzOTY2MTc5NzI2NTQ4OA.G3z9S9.9VEY4HtK_SZzSEujuvpb88kpE_SKy0F0-SAapE')
