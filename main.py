@@ -222,27 +222,27 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                                                         embedmain.set_author(name=f"Summoner Data")
 
                                                         try:
-                                                            await interaction.response.send_message(embed=embedmain, ephemeral=True)
+                                                            await interaction.response.send_message(embed=embedmain)
                                                         except discord.HTTPException:
-                                                            embed = discord.Embed(title="Error", description="Failed to send data. Please try again.", color=discord.Colour.red())
+                                                            embed = discord.Embed(title="Error", description="Failed to send embed data. Please try again.", color=discord.Colour.red())
                                                             await interaction.followup.send(embed=embed)
                                                     else:
-                                                        embed = discord.Embed(title="Error", description="Failed to retrieve Account Rank. Riot API down?", color=discord.Colour.red())
+                                                        embed = discord.Embed(title=f"Error {rank_resp.status}", description="Failed to retrieve Account Rank. Riot API down?", color=discord.Colour.red())
                                                         await interaction.response.send_message(embed=embed)
                                             else:
-                                                embed = discord.Embed(title="Error", description="Failed to retrieve champion.json file. Riot API down?", color=discord.Colour.red())
+                                                embed = discord.Embed(title=f"Error {champ_resp.status}", description="Failed to retrieve champion.json file. Riot API down?", color=discord.Colour.red())
                                                 await interaction.response.send_message(embed=embed)
                                     else:
-                                        embed = discord.Embed(title="Error", description="Failed to retrieve Account Mastery. Riot API down?", color=discord.Colour.red())
+                                        embed = discord.Embed(title=f"Error {mastery_resp.status}", description="Failed to retrieve Account Mastery. Riot API down?", color=discord.Colour.red())
                                         await interaction.response.send_message(embed=embed)
                             else:
-                                embed = discord.Embed(title="Error", description="Failed to retrieve Account ID. Riot API down?", color=discord.Colour.red())
+                                embed = discord.Embed(title=f"Error {encrypted_id_resp.status}", description="Failed to retrieve Account ID. Riot API down?", color=discord.Colour.red())
                                 await interaction.response.send_message(embed=embed)
                     else:
-                        embed = discord.Embed(title="Error", description="Failed to retrieve Game Details. Riot API down?", color=discord.Colour.red())
+                        embed = discord.Embed(title=f"Error {ign_tag.status}", description="Failed to retrieve Game Details. Riot API down?", color=discord.Colour.red())
                         await interaction.response.send_message(embed=embed)
             else:
-                embed = discord.Embed(title="Error", description="Failed to retrieve User PUUID. Incorrect IGN or Tag line", color=discord.Colour.red())
+                embed = discord.Embed(title=f"Error {resp.status}", description="Failed to retrieve User PUUID. Incorrect IGN or Tag line", color=discord.Colour.red())
                 embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
 
