@@ -2,6 +2,9 @@ import discord
 import discord.ui
 import aiohttp
 from discord.ext import commands
+from keep_alive import keep_alive
+
+keep_alive()
 
 #Roles, User ID's
 admin_role_id = 1145872122992930907
