@@ -33,7 +33,7 @@ async def on_ready():
 
 @bot.tree.command(name="role_remove", description="Remove a role from a user.")
 async def role_remove(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
-    if discord.utils.get(interaction.user.roles, id=admin_role_id) or discord.utils.get(interaction.user.roles, id=aram_role_id):
+    if discord.utils.get(interaction.user.roles, id=aram_role_id):
         if role in member.roles:
             await member.remove_roles(role)
             embed = discord.Embed(title="User Update:", color=role.color)
@@ -50,7 +50,7 @@ async def role_remove(interaction: discord.Interaction, member: discord.Member, 
 
 @bot.tree.command(name="role_add", description="Add a role to a user.")
 async def role_add(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
-    if discord.utils.get(interaction.user.roles, id=admin_role_id) or discord.utils.get(interaction.user.roles, id=aram_role_id):
+    if discord.utils.get(interaction.user.roles, id=aram_role_id):
         if role not in member.roles:
             await member.add_roles(role)
             embed = discord.Embed(title="User Update:", color=role.color)
@@ -67,7 +67,7 @@ async def role_add(interaction: discord.Interaction, member: discord.Member, rol
 
 @bot.tree.command(name="role_info", description="Get information about a role.")
 async def role_info(interaction: discord.Interaction, role: discord.Role):
-    if discord.utils.get(interaction.user.roles, id=admin_role_id) or discord.utils.get(interaction.user.roles, id=aram_role_id):
+    if discord.utils.get(interaction.user.roles, id=aram_role_id):
         mention_text = f"<@&{role.id}>" if role.mentionable else "Not mentionable"
         
         embed = discord.Embed(title=f"Role Information:", color=role.color) 
@@ -92,7 +92,7 @@ async def role_info(interaction: discord.Interaction, role: discord.Role):
 
 @bot.tree.command(name="nick", description="Change the nickname of a user.")
 async def nick(interaction: discord.Interaction, member: discord.Member, nickname: str):
-    if discord.utils.get(interaction.user.roles, id=admin_role_id) or discord.utils.get(interaction.user.roles, id=aram_role_id):
+    if discord.utils.get(interaction.user.roles, id=aram_role_id):
         await member.edit(nick=nickname)
         embed=discord.Embed(title="User Update:", color='black')
         embed.add_field(name="Nick Change", value=f"Successfully changed {member.mention}'s nickname to {nickname}.", ephemeral=True)
