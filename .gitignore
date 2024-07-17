@@ -1,6 +1,4 @@
 # misc
-.env.*
-*.env
 .env
 .env.local
 .env.development.local
