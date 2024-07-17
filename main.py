@@ -18,8 +18,6 @@ Aram = os.getenv("Aram")
 Discord_Token = os.getenv("Discord")
 Riot_API = os.getenv("Riot_API")
 
-print(Discord)
-
 # Bot Intents
 intents = discord.Intents().all()
 intents.messages = True
@@ -293,9 +291,5 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                 embed = discord.Embed(title=f"Error {resp.status}", description="Failed to retrieve User PUUID. Incorrect IGN or Tag line", color=discord.Colour.red())
                 embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
-    
-<<<<<<< HEAD
+
 bot.run(Discord_Token)
-=======
-bot.run(os.getenv("Discord"))
->>>>>>> eb2336e27108b6dcea9794488781082af0cf1b46
