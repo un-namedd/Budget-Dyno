@@ -6,7 +6,9 @@ from discord.ext import commands
 
 # Misc
 from keep_alive import keep_alive
+from dotenv import load_dotenv
 keep_alive()
+load_dotenv()
 
 # Folders / Files
 
