@@ -12,7 +12,7 @@ load_dotenv(find_dotenv())
 
 # Folders / Files
 
-# Roles, User ID's
+# Roles, User IDs
 Admin = os.getenv("Admin")
 Aram = os.getenv("Aram")
 Discord = os.getenv("Discord")
