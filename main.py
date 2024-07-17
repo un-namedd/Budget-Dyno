@@ -292,4 +292,4 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                 embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
     
-bot.run(os.getenv(Discord))
+bot.run(os.getenv("Discord"))
