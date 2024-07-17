@@ -13,8 +13,8 @@ load_dotenv(find_dotenv())
 # Folders / Files
 
 # Roles, User ID's
-Admin = os.getenv("Admin")
-Aram = os.getenv("Aram")
+Admin = os.getenv("Admin_ID")
+Aram = os.getenv("Aram_ID")
 Discord_Token = os.getenv("Discord")
 Riot_API = os.getenv("Riot_API")
 
