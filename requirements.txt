@@ -4,3 +4,4 @@ discord.ui
 flask
 requests
 asyncio
+dotenv
