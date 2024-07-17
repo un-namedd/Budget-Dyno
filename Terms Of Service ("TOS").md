@@ -1,6 +1,6 @@
 #           Terms Of Service Agreement ("TOS")
 
-> This TOS Agreement is entered into between [Omar Rihani] ("Bot Owner") and the user ("User") of the Jade Discord bot application ("Bot").
+### This TOS Agreement is entered into between [Omar Rihani] ("Bot Owner") and the user ("User") of the Jade Discord bot application ("Bot").
 
 > By using this Bot, the User agrees to be bound by the terms of this Agreement. If the User does not agree to the terms of this Agreement, the User shall cut immediate usage of the Bot.
 
