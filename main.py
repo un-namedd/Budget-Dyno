@@ -289,5 +289,5 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                 embed = discord.Embed(title=f"Error {resp.status}", description="Failed to retrieve User PUUID. Incorrect IGN or Tag line", color=discord.Colour.red())
                 embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
-
-bot.run(Discord)
+    
+bot.run(os.environ["Discord"])
