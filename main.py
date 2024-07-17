@@ -15,7 +15,7 @@ load_dotenv(find_dotenv())
 # Roles, User ID's
 Admin = os.getenv("Admin")
 Aram = os.getenv("Aram")
-Discord = os.getenv("Discord")
+Discord_Token = os.getenv("Discord")
 Riot_API = os.getenv("Riot_API")
 
 # Bot Intents
@@ -292,4 +292,4 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                 embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
     
-bot.run(os.environ[Discord])
+bot.run(Discord_Token)
