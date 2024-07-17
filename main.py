@@ -18,6 +18,8 @@ Aram = os.getenv("Aram")
 Discord = os.getenv("Discord")
 Riot_API = os.getenv("Riot_API")
 
+print(Discord)
+
 # Bot Intents
 intents = discord.Intents().all()
 intents.messages = True
