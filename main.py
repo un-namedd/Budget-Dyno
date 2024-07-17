@@ -18,6 +18,12 @@ Aram = os.getenv("Aram")
 Discord_Token = os.getenv("Discord")
 Riot_API = os.getenv("Riot_API")
 
+# Verify the token is being loaded
+if Discord_Token is None:
+    raise ValueError("Discord token not found. Please check your .env file.")
+
+print(f"Discord Token: {Discord_Token}")  # Debugging line, remove this in production
+
 # Bot Intents
 intents = discord.Intents().all()
 intents.messages = True
