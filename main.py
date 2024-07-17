@@ -4,11 +4,20 @@ import discord.ui
 import aiohttp
 from discord.ext import commands
 
+
 # Misc
 from keep_alive import keep_alive
+<<<<<<< HEAD
+from dotenv import dotenv
+=======
 from dotenv import load_dotenv
+>>>>>>> 0fd18b02713556ca8bf0e039c4fc3efc3c7306b5
 keep_alive()
+<<<<<<< HEAD
+dotenv()
+=======
 load_dotenv()
+>>>>>>> 0fd18b02713556ca8bf0e039c4fc3efc3c7306b5
 
 # Folders / Files
 
@@ -292,4 +301,4 @@ async def summoner(interaction: discord.Interaction, ign: str, tag: str):
                 embed.add_field(name="Inccorect provided IGN or Tag Line.", value=f"{ign} #{tag}")
                 await interaction.response.send_message(embed=embed, ephemeral=True)
     
-bot.run(os.environ["Discord"])
+bot.run(os.environ[Discord])
