@@ -40,4 +40,4 @@ class Client(commands.Bot):
 
 client = Client()
 
-client.run(os.getenv(Discord_Token))
+client.run(os.environ[Discord_Token])
