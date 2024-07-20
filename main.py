@@ -12,7 +12,6 @@ from dynocmds.generaluse import generalcmds # type: ignore
 from dynocmds.rolecmds import rolecmds # type: ignore
 
 Riot_API = os.getenv('Riot_API')
-Discord_Token = os.getenv('Discord')
 Aram = os.getenv('Aram_ID')
 Admin = os.getenv('Admin_ID')
 Owner = os.getenv('Owner')
@@ -40,4 +39,4 @@ class Client(commands.Bot):
 
 client = Client()
 
-client.run(Discord_Token)
+client.run(os.environ['Discord_Token'])
