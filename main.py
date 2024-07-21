@@ -11,6 +11,9 @@ from dynocmds.riotapi import rito # type: ignore
 from dynocmds.generaluse import generalcmds # type: ignore
 from dynocmds.rolecmds import rolecmds # type: ignore
 
+from keep_alive import keep_alive
+keep_alive()
+
 Riot_API = os.getenv('Riot_API')
 Aram = os.getenv('Aram_ID')
 Admin = os.getenv('Admin_ID')
